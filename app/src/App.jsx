@@ -1,35 +1,57 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await fetch("http://localhost:3000/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, email }),
+    });
+    if (response.ok) {
+      console.log("Form submitted successfully");
+    } else {
+      console.error("Form submission failed");
+    }
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <form onSubmit={handleSubmit} className="form-example">
+        <div className="form-example">
+          <label htmlFor="name">Enter your name: </label>
+          <input
+            type="text"
+            name="name"
+            id="name"
+            required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+        <div className="form-example">
+          <label htmlFor="email">Enter your email: </label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div className="form-example">
+          <input type="submit" value="Subscribe!" />
+        </div>
+      </form>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
