@@ -12,6 +12,7 @@ async function init () {
     console.log('Connected successfully to server');
     const db = client.db(dbName);
     collection = db.collection('documents');
+  console.log('connected to database');
 }
 
 async function getCollection () {
